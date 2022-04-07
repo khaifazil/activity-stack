@@ -20,7 +20,7 @@ func (p *stack) push(name string) error {
 		item: name,
 		next: nil,
 	}
-	if p.top == nil {
+	if p.top == nil { //checks to see if there are any nodes in Stack
 		p.top = newNode
 	} else {
 		newNode.next = p.top // points newNode to previous newNode's address
@@ -36,9 +36,9 @@ func (p *stack) pop() (string, error) {
 	if p.top == nil {
 		return "", errors.New("Stack is empty!")
 	}
-	
+
 	item = p.top.item
-	if p.size == 1 {
+	if p.size == 1 { //p.top.next == nil (if no size is specified)
 		p.top = nil
 	} else {
 		p.top = p.top.next
@@ -53,7 +53,7 @@ func (p *stack) pop() (string, error) {
 // 	if p.top == nil {
 // 		return nil, errors.New("Stack is empty!")
 // 	}
-	
+
 // 	if num < 1 && p.size == 1 {
 // 		items = append(items, p.top)
 // 		p.top = nil
@@ -69,17 +69,31 @@ func (p *stack) pop() (string, error) {
 // 	p.size = p.size - num[0]
 // }
 
+func (p *stack) peek() (string, error) {
+	if p.top == nil {
+		return "", errors.New("Stack is empty.")
+	}
+
+	var item string = p.top.item
+	return item, nil
+}
+
 func (p *stack) printAllNodes() error {
 	currentNode := p.top
 	if currentNode == nil {
 		fmt.Println("Stack is empty.")
-		return nil
+		return nil // minimize checks. every check is an operation
 	}
 	fmt.Printf("%+v\n", currentNode.item)
 	for currentNode.next != nil {
 		currentNode = currentNode.next
 		fmt.Printf("%+v\n", currentNode.item)
 	}
+
+	// for currentNode != nil { //different way to printAllNodes
+	// 	fmt.Printf("%+v\n", currentNode.item)
+	// 	currentNode = currentNode.next
+	// }
 	return nil
 }
 
@@ -87,15 +101,16 @@ func main() {
 	myList := &stack{nil, 0} //init stack
 
 	myList.push("Peter")
-	myList.push("Parker")
+	myList.push("Eddie")
 	myList.push("Mary Jane")
 	myList.push("SpooderMan")
 
 	fmt.Println("\nPrinting all the nodes in the stack...")
 	myList.printAllNodes()
 
-	myList.pop()
+	poppedItem, _ := myList.pop()
 
 	fmt.Println("\nPrinting all the nodes in the stack...")
 	myList.printAllNodes()
+	fmt.Printf("\n%v was popped", poppedItem)
 }
