@@ -97,20 +97,43 @@ func (p *stack) printAllNodes() error {
 	return nil
 }
 
+func (p *stack) isEmpty() bool {
+	return p.size == 0
+}
+
 func main() {
-	myList := &stack{nil, 0} //init stack
+	myStack := &stack{nil, 0} //init stack
 
-	myList.push("Peter")
-	myList.push("Eddie")
-	myList.push("Mary Jane")
-	myList.push("SpooderMan")
+	myStack.push("Peter")
+	myStack.push("Eddie")
+	myStack.push("Mary Jane")
+	myStack.push("SpooderMan")
 
-	fmt.Println("\nPrinting all the nodes in the stack...")
-	myList.printAllNodes()
+	// fmt.Println("\nPrinting all the nodes in the stack...")
+	// myStack.printAllNodes()
 
-	poppedItem, _ := myList.pop()
+	// poppedItem, _ := myStack.pop()
 
-	fmt.Println("\nPrinting all the nodes in the stack...")
-	myList.printAllNodes()
-	fmt.Printf("\n%v was popped", poppedItem)
+	// fmt.Println("\nPrinting all the nodes in the stack...")
+	// myStack.printAllNodes()
+	// fmt.Printf("\n%v was popped", poppedItem)
+
+	// fmt.Println("\nPeeking at the top node in the stack...")
+	// peekItem, _ := myStack.peek()
+	// fmt.Printf(peekItem)
+
+	//print without using printAllNodes()
+
+
+	tempStack := &stack{nil, 0}
+	for myStack.isEmpty() == false {
+		item, _ := myStack.pop()
+		tempStack.push(item)
+		fmt.Println(item)
+	}
+	
+	for tempStack.isEmpty() == false {
+		item, _ := tempStack.pop()
+		myStack.push(item)
+	}
 }
